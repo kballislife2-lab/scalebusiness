@@ -11,6 +11,8 @@ Single-page website for Scalebusiness — web design, web development, and marke
 │   └── generate-preview.js # Serverless backend for the AI Preview Tool
 ├── .htaccess                # Clean-path routing for Apache hosting
 ├── vercel.json               # Clean-path routing for Vercel
+├── sitemap.xml               # Lists all real pages for Google/Bing to crawl
+├── robots.txt                 # Points crawlers to sitemap.xml
 ├── .gitignore
 └── README.md
 ```
@@ -42,6 +44,10 @@ For direct links like `yoursite.com/about` to work in production, this repo alre
 - **`vercel.json`** — for Vercel (routes all paths to `index.html` except `/api/*`)
 
 If you're deploying to Netlify or Cloudflare Pages instead, ask Claude for the equivalent `netlify.toml` / `_redirects` config.
+
+### SEO: sitemap.xml and robots.txt
+
+Both files currently use `https://www.scalebusiness.com` as a placeholder. **Before submitting to Google Search Console, find-and-replace that with your real live domain** in both `sitemap.xml` and `robots.txt`, then push. Submit `sitemap.xml` under Search Console's Sitemaps report so Google discovers every page faster.
 
 ## The AI Preview Tool
 

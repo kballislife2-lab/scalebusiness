@@ -2111,6 +2111,49 @@
       "service-maintenance": "/services/maintenance"
     };
 
+    // Per-page <title> and meta description, applied dynamically since
+    // this is a single-page app — without this every page would share
+    // the Home page's title/description in search results.
+    var PAGE_META = {
+      home: {
+        title: "Scalebusiness | Websites, Web Design & Marketing That Grow Your Brand",
+        description: "Scalebusiness builds high-converting websites, web design, and marketing & advertising campaigns for businesses and brands nationwide."
+      },
+      about: {
+        title: "About Us | Scalebusiness",
+        description: "Learn about Scalebusiness, a nationwide team building digital storefronts designed to build brand credibility and turn visitors into paying customers."
+      },
+      services: {
+        title: "Services & Pricing | Scalebusiness",
+        description: "Brand identity development, custom website design, an AI automated answering system, and website maintenance — see what's included and get pricing for each service."
+      },
+      "service-brand": {
+        title: "Brand Identity Development | Scalebusiness",
+        description: "Custom logo design, brand color palette, typography, and a mini style guide — included with every website design project at no extra charge."
+      },
+      "service-website": {
+        title: "Custom Website Design & Development | Scalebusiness",
+        description: "A fully customized, responsive website with up to 7 pages, foundational SEO, and a 24/7 AI chat box. Starting at $2,000."
+      },
+      "service-ai": {
+        title: "AI Automated Answering System | Scalebusiness",
+        description: "24/7 instant customer support, lead capture and qualification, automated scheduling, and CRM integration. Starting at $2,750."
+      },
+      "service-maintenance": {
+        title: "Website Maintenance & Support | Scalebusiness",
+        description: "Ongoing monthly website updates, SEO support, and technical maintenance to keep your site running smoothly. $250/month."
+      },
+      preview: {
+        title: "AI Preview Tool | Scalebusiness",
+        description: "Describe your business and get an instant AI-generated website concept, complete with headline, colors, and page structure, before you reach out."
+      },
+      contact: {
+        title: "Get a Quote | Scalebusiness",
+        description: "Build your instant quote, try our AI Preview Tool, or contact Scalebusiness directly to start your website project."
+      }
+    };
+    var metaDescriptionTag = document.querySelector('meta[name="description"]');
+
     var pages = document.querySelectorAll(".page");
     var navLinks = document.querySelectorAll("[data-link]");
 
@@ -2133,6 +2176,13 @@
       navLinks.forEach(function(link){
         link.classList.toggle("active", link.dataset.page === pageId && !link.classList.contains("nav-cta"));
       });
+
+      // Update <title> and meta description for this page (SEO —
+      // otherwise every page would show Home's title/description
+      // in search results and browser tabs).
+      var meta = PAGE_META[pageId] || PAGE_META.home;
+      document.title = meta.title;
+      if (metaDescriptionTag) metaDescriptionTag.setAttribute("content", meta.description);
 
       // Scroll to top on page switch for a "real navigation" feel
       window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
