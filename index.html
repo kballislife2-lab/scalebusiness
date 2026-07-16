@@ -678,7 +678,7 @@
   ============================================ */
   .preview-tool{
     display:grid;
-    grid-template-columns:.85fr 1.15fr;
+    grid-template-columns:1fr 1fr;
     gap:28px;
     align-items:start;
   }
@@ -690,22 +690,43 @@
     padding:28px;
     box-shadow:var(--shadow-tight);
   }
+  .preview-field-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px 18px;
+  }
+  @media(max-width:520px){ .preview-field-grid{ grid-template-columns:1fr; } }
+  .preview-field.span-2{ grid-column:1 / -1; }
   .preview-label{
     display:block;
     font-weight:700;
-    font-size:.9rem;
+    font-size:.85rem;
     color:var(--ink);
-    margin-bottom:10px;
+    margin-bottom:8px;
   }
+  .preview-label .req{ color:var(--coral); }
+  .preview-label .optional{ font-weight:500; color:rgba(68,63,94,0.55); text-transform:none; }
+  .preview-input{
+    width:100%;
+    border:2px solid rgba(23,21,43,0.1);
+    border-radius:var(--radius-sm);
+    padding:11px 14px;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:.94rem;
+    color:var(--ink);
+    background:var(--cream);
+    transition:border-color .2s ease;
+  }
+  .preview-input:focus{ outline:none; border-color:var(--coral); }
   .preview-textarea{
     width:100%;
     resize:vertical;
-    min-height:140px;
+    min-height:84px;
     border:2px solid rgba(23,21,43,0.1);
     border-radius:var(--radius-md);
-    padding:14px 16px;
+    padding:12px 14px;
     font-family:'Plus Jakarta Sans', sans-serif;
-    font-size:.98rem;
+    font-size:.94rem;
     color:var(--ink);
     background:var(--cream);
     transition:border-color .2s ease;
@@ -719,10 +740,10 @@
     align-items:center;
     justify-content:space-between;
     gap:14px;
-    margin-top:14px;
+    margin-top:20px;
     flex-wrap:wrap;
   }
-  .preview-char-count{ font-size:.8rem; color:rgba(68,63,94,0.6); }
+  .preview-required-note{ font-size:.8rem; color:rgba(68,63,94,0.6); }
   #generateBtn:disabled{ opacity:.6; cursor:not-allowed; transform:none !important; }
   #generateBtnIcon{ animation:none; }
   #generateBtn.is-loading #generateBtnIcon{ animation:spin 1s linear infinite; }
@@ -1328,17 +1349,49 @@
         <div class="section-head center">
           <span class="kicker">AI Preview Tool</span>
           <h2>Describe the website you want. Watch a concept take shape.</h2>
-          <p style="margin-top:10px;">Tell us about your business and your style in your own words. Our AI will draft a headline, tagline, color direction, and page structure so you can see a first concept instantly &mdash; before we build the real thing.</p>
+          <p style="margin-top:10px;">Fill in a few details about your business. Our AI will draft a headline, tagline, color direction, and page structure so you can see a first concept instantly &mdash; before we build the real thing.</p>
         </div>
 
         <div class="preview-tool">
           <!-- Prompt drafting panel -->
           <div class="preview-form-card">
-            <label for="previewPrompt" class="preview-label">Your website, in your own words</label>
-            <textarea id="previewPrompt" class="preview-textarea" rows="6" maxlength="600"
-              placeholder="Example: A cozy neighborhood bakery in Denver. Warm, friendly, a little playful. We need pages for our menu, our story, and ordering custom cakes. Should feel handmade, not corporate."></textarea>
+            <div class="preview-field-grid">
+              <div class="preview-field">
+                <label for="fieldName" class="preview-label">Your Name</label>
+                <input type="text" id="fieldName" class="preview-input" placeholder="Jordan Lee">
+              </div>
+              <div class="preview-field">
+                <label for="fieldEmail" class="preview-label">Your Email <span class="req">*</span></label>
+                <input type="email" id="fieldEmail" class="preview-input" placeholder="you@yourbusiness.com">
+              </div>
+              <div class="preview-field">
+                <label for="fieldBusiness" class="preview-label">Business Name</label>
+                <input type="text" id="fieldBusiness" class="preview-input" placeholder="Lee's Bakery">
+              </div>
+              <div class="preview-field">
+                <label for="fieldPhone" class="preview-label">Phone Number</label>
+                <input type="tel" id="fieldPhone" class="preview-input" placeholder="(720) 555-0134">
+              </div>
+              <div class="preview-field">
+                <label for="fieldServices" class="preview-label">Services You Offer</label>
+                <input type="text" id="fieldServices" class="preview-input" placeholder="Custom cakes, daily pastries, coffee">
+              </div>
+              <div class="preview-field">
+                <label for="fieldArea" class="preview-label">Service Area / Address</label>
+                <input type="text" id="fieldArea" class="preview-input" placeholder="Denver, CO">
+              </div>
+              <div class="preview-field span-2">
+                <label for="fieldDescribe" class="preview-label">Describe Your Business</label>
+                <textarea id="fieldDescribe" class="preview-textarea" rows="3" maxlength="500"
+                  placeholder="Warm, friendly, a little playful. Should feel handmade, not corporate."></textarea>
+              </div>
+              <div class="preview-field span-2">
+                <label for="fieldColors" class="preview-label">Website Colors <span class="optional">(optional)</span></label>
+                <input type="text" id="fieldColors" class="preview-input" placeholder="e.g. Warm terracotta and cream, or 'bold and modern'">
+              </div>
+            </div>
             <div class="preview-form-row">
-              <span id="previewCharCount" class="preview-char-count">0 / 600</span>
+              <span class="preview-required-note">* Required</span>
               <button id="generateBtn" class="btn btn-primary" type="button">
                 <span id="generateBtnText">Generate Preview</span>
                 <svg id="generateBtnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -1591,8 +1644,15 @@
     // TODO: replace with your deployed backend endpoint URL
     var PREVIEW_API_ENDPOINT = "/api/generate-preview";
 
-    var promptEl = document.getElementById("previewPrompt");
-    var charCountEl = document.getElementById("previewCharCount");
+    var nameEl = document.getElementById("fieldName");
+    var emailEl = document.getElementById("fieldEmail");
+    var businessEl = document.getElementById("fieldBusiness");
+    var phoneEl = document.getElementById("fieldPhone");
+    var servicesEl = document.getElementById("fieldServices");
+    var areaEl = document.getElementById("fieldArea");
+    var describeEl = document.getElementById("fieldDescribe");
+    var colorsEl = document.getElementById("fieldColors");
+
     var generateBtn = document.getElementById("generateBtn");
     var generateBtnText = document.getElementById("generateBtnText");
     var errorEl = document.getElementById("previewError");
@@ -1611,15 +1671,31 @@
     var actionsEl = document.getElementById("previewActions");
     var emailBtn = document.getElementById("emailConceptBtn");
 
-    if (!promptEl || !generateBtn) return; // page not present, nothing to wire up
+    if (!generateBtn || !businessEl) return; // page not present, nothing to wire up
 
     var lastConcept = null;
+    var lastPromptText = "";
 
-    // Live character counter
-    promptEl.addEventListener("input", function(){
-      var len = promptEl.value.length;
-      charCountEl.textContent = len + " / 600";
-    });
+    function val(el){ return el && el.value ? el.value.trim() : ""; }
+
+    // Turn the structured fields into a single natural-language prompt
+    // for the backend — the API contract itself doesn't change.
+    function composePrompt(){
+      var parts = [];
+      var business = val(businessEl);
+      var services = val(servicesEl);
+      var describe = val(describeEl);
+      var area = val(areaEl);
+      var colors = val(colorsEl);
+
+      if (business) parts.push("Business name: " + business + ".");
+      if (services) parts.push("Services offered: " + services + ".");
+      if (describe) parts.push("About the business: " + describe);
+      if (area) parts.push("Service area: " + area + ".");
+      if (colors) parts.push("Preferred colors/style: " + colors + ".");
+
+      return parts.join(" ");
+    }
 
     function showError(message){
       errorEl.textContent = message;
@@ -1681,11 +1757,19 @@
     }
 
     async function generatePreview(){
-      var prompt = promptEl.value.trim();
       clearError();
 
+      var email = val(emailEl);
+      var prompt = composePrompt();
+      lastPromptText = prompt;
+
+      if (!email){
+        showError("Your email is required so we can follow up with you.");
+        emailEl.focus();
+        return;
+      }
       if (prompt.length < 12){
-        showError("Tell us a bit more about your business first — a sentence or two is a great start.");
+        showError("Fill in at least a business name and a short description to get a preview.");
         return;
       }
 
@@ -1713,24 +1797,23 @@
     }
 
     generateBtn.addEventListener("click", generatePreview);
-    promptEl.addEventListener("keydown", function(e){
-      if ((e.metaKey || e.ctrlKey) && e.key === "Enter"){
-        generatePreview();
-      }
-    });
 
-    // Let the customer send their generated concept + original prompt
+    // Let the customer send their generated concept + contact details
     // straight to Scalebusiness via a prefilled email — no backend needed.
     if (emailBtn){
       emailBtn.addEventListener("click", function(e){
         e.preventDefault();
-        var promptText = promptEl.value.trim();
         var subject = "Website concept from the AI Preview Tool";
         var bodyLines = [
           "Hi Scalebusiness,",
           "",
-          "I used the AI Preview Tool and here's what I described:",
-          promptText,
+          "Contact details:",
+          "Name: " + (val(nameEl) || "(not provided)"),
+          "Email: " + (val(emailEl) || "(not provided)"),
+          "Phone: " + (val(phoneEl) || "(not provided)"),
+          "",
+          "What I described:",
+          lastPromptText || composePrompt(),
           ""
         ];
         if (lastConcept){
